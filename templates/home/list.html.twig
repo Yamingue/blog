@@ -1,0 +1,42 @@
+<div class="row">
+    {% for article in articles %}
+    <div class="col-sm-6 mb-2">
+        <div class="card">
+            <div class="card-body d-flex flex-row">
+                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg" class="rounded-circle me-3"
+                    height="50px" width="50px" alt="avatar" />
+                <div>
+                    <h5 class="card-title font-weight-bold mb-2">{{article.titre}}</h5>
+                    <p class="card-text"><i class="far fa-clock pe-2"></i>{{article.makeAt |ago }}</p>
+                </div>
+            </div>
+            <div class="bg-image hover-overlay ripple rounded-0" data-mdb-ripple-color="light">
+                {% if article.media[0].type == 'video' %}
+                <video class="img-fluid" src="{{ article.media[0].path }}" controls></video>
+                {% else %}
+                <img src="{{ article.media[0].path }}" class="img-fluid" alt="{{ article.titre }}">
+                <a href="#!">
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <p class="card-text" style="max-height: 80px; overflow: hidden">
+                    {{article.content |raw}}
+                </p>
+                <div class="d-flex justify-content-between">
+                    <a class="" href="{{ path('like',{id:article.id}) }}">    
+                        <i class="fas fa-heart p-md-1 my-1 me-0 {% if app.user in article.likes %}text-danger {% else %}text-dark{% endif %}"></i> {{ article.likes |length}}
+                    </a>
+                    <div>
+                        <i class="fas fa-comments"></i> {{ article.comments |length}}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{{ path('view',{id:article.id}) }}" class="text-secondary">Lire la suite</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
